@@ -1,0 +1,67 @@
+{
+  "$schema": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.1/schema.json",
+  "settings": {
+    "simulation": "CLASSIC_NEG",
+    "whiteBalance": {
+      "mode": "TEMPERATURE",
+      "shift": {
+        "r": 3,
+        "b": -2
+      },
+      "temperature": 6500
+    },
+    "dynamicRange": "DR400",
+    "toneCurve": {
+      "highlights": 1.5,
+      "shadows": -0.5
+    },
+    "color": 2,
+    "sharpness": -1,
+    "clarity": 0,
+    "noiseReduction": -2,
+    "effects": {
+      "colorChrome": "STRONG",
+      "colorChromeBlue": "STRONG",
+      "grain": {
+        "amount": "STRONG",
+        "size": "LARGE"
+      },
+      "smoothSkin": "OFF"
+    }
+  },
+  "meta": {
+    "name": "My Classic Neg",
+    "author": {
+      "name": "Miroslav Voda",
+      "links": [
+        "https://github.com/vodamiro"
+      ]
+    },
+    "links": [
+      "https://example.com/my_classig_neg_recipe/"
+    ],
+    "publishedDate": "2023-07-30T22:20:00Z",
+    "tags": [
+      "fancy",
+      "test"
+    ],
+    "camera": {
+      "sensors": [
+        "X_TRANS_IV",
+        "X_TRANS_V_HR",
+        "X_TRANS_V_HS"
+      ],
+      "models": [
+        "X100V",
+        "X-T5",
+        "X-T4",
+        "X-E4",
+        "X-PRO3",
+        "X-S10",
+        "X-S20",
+        "X-H2",
+        "X-H2S"
+      ]
+    }
+  }
+}
