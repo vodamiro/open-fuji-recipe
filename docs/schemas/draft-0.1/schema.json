@@ -1,0 +1,736 @@
+{
+    "$id": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.1/schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "title": "Open Fuji Recipe File Schema",
+    "description": "A file format for storing Fujifilm camera settings.",
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "title": "File Schema",
+            "description": "The schema of the file format so that parsers can determine how to parse the file.",
+            "default": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.1/schema.json",
+            "enum": [
+                "https://vodamiro.github.io/open-fuji-recipe/schemas/0.1/schema.json"
+            ]
+        },
+        "settings": {
+            "type": "object",
+            "title": "Camera Settings",
+            "description": "The complete camera settings to achieve the desired film simulation.",
+            "properties": {
+                "simulation": {
+                    "$ref": "#/$defs/simulation",
+                    "title": "Film simulation",
+                    "description": "The base film simulation."
+                },
+                "whiteBalance": {
+                    "type": "object",
+                    "title": "White Balance",
+                    "description": "The white balance settings",
+                    "default": {
+                        "mode": "AUTO"
+                    },
+                    "properties": {
+                        "mode": {
+                            "$ref": "#/$defs/whiteBalanceMode",
+                            "title": "White Balance Mode",
+                            "description": "The white balance settings."
+                        },
+                        "shift": {
+                            "type": "object",
+                            "title": "White Balance Color Shift",
+                            "description": "The white balance color shift.",
+                            "default": {
+                                "r": 0,
+                                "b": 0
+                            },
+                            "properties": {
+                                "r": {
+                                    "$ref": "#/$defs/whiteBalanceShift",
+                                    "title": "Red",
+                                    "description": "The red color shift."
+                                },
+                                "b": {
+                                    "$ref": "#/$defs/whiteBalanceShift",
+                                    "title": "Blue",
+                                    "description": "The blue color shift."
+                                }
+                            },
+                            "required": [
+                                "r",
+                                "b"
+                            ],
+                            "examples": [
+                                {
+                                    "r": 5,
+                                    "b": -2
+                                }
+                            ]
+                        },
+                        "temperature": {
+                            "$ref": "#/$defs/whiteBalanceTemperature",
+                            "title": "Temperature in Kelvin",
+                            "description": "The white balance temperature in Kelvin (applicable only for white balance mode TEMPERATURE)."
+                        }
+                    },
+                    "required": [
+                        "mode"
+                    ],
+                    "additionalProperties": false,
+                    "examples": [
+                        {
+                            "mode": "TEMPERATURE",
+                            "shift": {
+                                "r": 3,
+                                "b": -2
+                            },
+                            "temperature": 9500
+                        },
+                        {
+                            "mode": "SHADE",
+                            "shift": {
+                                "r": 5,
+                                "b": 5
+                            }
+                        },
+                        {
+                            "mode": "TEMPERATURE",
+                            "temperature": 5600
+                        },
+                        {
+                            "mode": "AUTO"
+                        }
+                    ]
+                },
+                "dynamicRange": {
+                    "$ref": "#/$defs/dynamicRange",
+                    "title": "Dynamic Range",
+                    "description": "The dynamic range settings."
+                },
+                "toneCurve": {
+                    "type": "object",
+                    "title": "Tone Curve",
+                    "description": "The tone curve settings.",
+                    "default": {
+                        "highlights": 0,
+                        "shadows": 0
+                    },
+                    "properties": {
+                        "highlights": {
+                            "$ref": "#/$defs/toneCurve",
+                            "title": "Highlights"
+                        },
+                        "shadows": {
+                            "$ref": "#/$defs/toneCurve",
+                            "title": "Shadows"
+                        }
+                    },
+                    "required": [
+                        "highlights",
+                        "shadows"
+                    ],
+                    "additionalProperties": false,
+                    "examples": [
+                        {
+                            "highlights": 1.5,
+                            "shadows": 2
+                        },
+                        {
+                            "highlights": -1,
+                            "shadows": 1
+                        }
+                    ]
+                },
+                "color": {
+                    "$ref": "#/$defs/standardSettingsRange",
+                    "title": "Color Saturation",
+                    "description": "The color saturation settings."
+                },
+                "monochromaticColor": {
+                    "type": "object",
+                    "title": "Monochromatic color",
+                    "description": "The monochromatic color settings (applicable only for monochrome simulations).",
+                    "default": {
+                        "wc": 0,
+                        "mg": 0
+                    },
+                    "properties": {
+                        "wc": {
+                            "$ref": "#/$defs/monochromaticColor",
+                            "title": "WC"
+                        },
+                        "mg": {
+                            "$ref": "#/$defs/monochromaticColor",
+                            "title": "MG"
+                        }
+                    },
+                    "required": [
+                        "wc",
+                        "mg"
+                    ],
+                    "additionalProperties": false,
+                    "examples": [
+                        {
+                            "wc": 2,
+                            "mg": -1
+                        }
+                    ]
+                },
+                "sharpness": {
+                    "$ref": "#/$defs/standardSettingsRange",
+                    "title": "Sharpness",
+                    "description": "The sharpness settings."
+                },
+                "clarity": {
+                    "$ref": "#/$defs/clarity",
+                    "title": "Clarity",
+                    "description": "The clarity settings."
+                },
+                "noiseReduction": {
+                    "$ref": "#/$defs/standardSettingsRange",
+                    "title": "Noise Reduction",
+                    "description": "The noise reduction settings."
+                },
+                "effects": {
+                    "type": "object",
+                    "title": "Effects",
+                    "description": "The additional effects settings.",
+                    "properties": {
+                        "colorChrome": {
+                            "$ref": "#/$defs/amount",
+                            "title": "Color Chrome Effect",
+                            "description": "The color chrome effect settings."
+                        },
+                        "colorChromeBlue": {
+                            "$ref": "#/$defs/amount",
+                            "title": "Color Chrome Blue Effect",
+                            "description": "The color chrome blue effect settings."
+                        },
+                        "grain": {
+                            "type": "object",
+                            "title": "Grain Effect",
+                            "description": "The grain effect settings. For older sensors, grain size is not available.",
+                            "default": {
+                                "amount": "OFF",
+                                "size": "SMALL"
+                            },
+                            "properties": {
+                                "amount": {
+                                    "$ref": "#/$defs/amount",
+                                    "title": "Grain Amount"
+                                },
+                                "size": {
+                                    "$ref": "#/$defs/size",
+                                    "title": "Grain Size"
+                                }
+                            },
+                            "required": [
+                                "amount"
+                            ],
+                            "examples": [
+                                {
+                                    "amount": "STRONG",
+                                    "size": "LARGE"
+                                },
+                                {
+                                    "amount": "SMALL"
+                                }
+                            ],
+                            "additionalProperties": false
+                        },
+                        "smoothSkin": {
+                            "$ref": "#/$defs/amount",
+                            "title": "Smooth Skin Effect",
+                            "description": "The smooth skin effect settings."
+                        }
+                    },
+                    "additionalProperties": false,
+                    "examples": [
+                        {
+                            "colorChrome": "OFF",
+                            "colorChromeBlue": "WEAK",
+                            "grain": {
+                                "amount": "STRONG",
+                                "size": "LARGE"
+                            },
+                            "smoothSkin": "OFF"
+                        }
+                    ]
+                },
+                "lensModulationOptimizer": {
+                    "$ref": "#/$defs/onOff",
+                    "title": "Lens Modulation Optimizer",
+                    "description": "The lens modulation optimizer settings."
+                }
+            },
+            "additionalProperties": false
+        },
+        "meta": {
+            "type": "object",
+            "title": "Metadata",
+            "description": "The metadata of the recipe - useful for providing additional information about the recipe and its author.",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "title": "Recipe Name",
+                    "description": "The name of the recipe.",
+                    "pattern": "^\\S.*$",
+                    "examples": [
+                        "Portra 100",
+                        "Sunny Summer"
+                    ]
+                },
+                "links": {
+                    "type": "array",
+                    "title": "Links with information about recipe",
+                    "description": "The links with information about the recipe.",
+                    "items": {
+                        "$ref": "#/$defs/linkWithType"
+                    }
+                },
+                "author": {
+                    "type": "object",
+                    "title": "Information About Author",
+                    "description": "The information about author of the recipe.",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "title": "Author Name",
+                            "pattern": "^\\S.*$",
+                            "examples": [
+                                "John Doe"
+                            ]
+                        },
+                        "links": {
+                            "type": "array",
+                            "title": "Links with information about author",
+                            "items": {
+                                "$ref": "#/$defs/linkWithType"
+                            }
+                        },
+                        "email": {
+                            "type": "string",
+                            "title": "E-mail Address",
+                            "examples": [
+                                "whathever@example.com"
+                            ],
+                            "format": "email"
+                        }
+                    },
+                    "required": [
+                        "name"
+                    ],
+                    "additionalProperties": false,
+                    "examples": [
+                        {
+                            "name": "John Doe",
+                            "url": "https://example.com/recipe/1",
+                            "links": [
+                                "https://instagram.com/u/1223"
+                            ],
+                            "email": "whathever@example.com"
+                        }
+                    ]
+                },
+                "publishedDate": {
+                    "type": "string",
+                    "title": "Date of Publishing",
+                    "description": "The date of publishing the recipe.",
+                    "examples": [
+                        "2023-07-27T22:47:00"
+                    ],
+                    "format": "date-time"
+                },
+                "tags": {
+                    "type": "array",
+                    "title": "Tags",
+                    "description": "The tags of the recipe for better organization.",
+                    "items": {
+                        "type": "string",
+                        "title": "Tag",
+                        "examples": [
+                            "recipe"
+                        ],
+                        "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "examples": [
+                        [
+                            "contrasty",
+                            "moody",
+                            "everyday"
+                        ]
+                    ]
+                },
+                "camera": {
+                    "type": "object",
+                    "title": "Camera Information",
+                    "description": "The information about camera suitable for using the recipe.",
+                    "required": [
+                        "sensors"
+                    ],
+                    "properties": {
+                        "sensors": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/sensor",
+                                "title": "Sensor"
+                            },
+                            "title": "Supported sensors",
+                            "description": "The list of supported sensors."
+                        },
+                        "models": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/cameraModel",
+                                "title": "Supported Camera Model"
+                            },
+                            "title": "Supported Camera Models",
+                            "description": "The list of supported camera models."
+                        }
+                    },
+                    "additionalProperties": false,
+                    "examples": [
+                        {
+                            "sensors": [
+                                "X_TRANS_IV"
+                            ],
+                            "models": [
+                                "X-T4",
+                                "X-100V"
+                            ]
+                        }
+                    ]
+                },
+                "images": {
+                    "type": "array",
+                    "default": [],
+                    "title": "Previews of Recipe Outputs",
+                    "description": "The previews of recipe outputs. Useful for presenting the recipe in the gallery.",
+                    "items": {
+                        "type": "object",
+                        "title": "Preview",
+                        "properties": {
+                            "thumbnail": {
+                                "$ref": "#/$defs/urlAddress",
+                                "type": "string",
+                                "default": "",
+                                "title": "Image thumbnail",
+                                "examples": [
+                                    "https://example.com/"
+                                ]
+                            },
+                            "full": {
+                                "$ref": "#/$defs/urlAddress",
+                                "type": "string",
+                                "default": "",
+                                "title": "Full image",
+                                "examples": [
+                                    "https://example.com/"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "full"
+                        ],
+                        "additionalProperties": false,
+                        "examples": [
+                            {
+                                "thumbnail": "https://example.com/image_thumb.jpg",
+                                "full": "https://example.com/image.jpg"
+                            }
+                        ]
+                    },
+                    "examples": [
+                        [
+                            {
+                                "thumbnail": "https://example.com/image_thumb.jpg",
+                                "full": "https://example.com/image.jpg"
+                            }
+                        ]
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "author"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "$schema",
+        "settings"
+    ],
+    "$defs": {
+        "urlAddress": {
+            "format": "uri",
+            "pattern": "^https?://"
+        },
+        "simulation": {
+            "type": "string",
+            "default": "PROVIA",
+            "enum": [
+                "PROVIA",
+                "VELVIA",
+                "ASTIA",
+                "ACROS",
+                "ACROS_Y",
+                "ACROS_R",
+                "ACROS_G",
+                "BW",
+                "BW_Y",
+                "BW_R",
+                "BW_G",
+                "ETERNA",
+                "CLASSIC_CHROME",
+                "CLASSIC_NEG",
+                "PRO_NEG_HI",
+                "PRO_NEG_STD",
+                "SEPIA",
+                "BLEACH_BYPASS",
+                "NOSTALGIC_NEG"
+            ]
+        },
+        "sensor": {
+            "type": "string",
+            "default": "",
+            "enum": [
+                "BAYER",
+                "X_TRANS_I",
+                "X_TRANS_II",
+                "X_TRANS_III",
+                "X_TRANS_IV",
+                "X_TRANS_V_HR",
+                "X_TRANS_V_HS",
+                "GFX"
+            ]
+        },
+        "cameraModel": {
+            "type": "string",
+            "default": "",
+            "enum": [
+                "GFX_100",
+                "GFX_100S",
+                "GFX_50R",
+                "GFX_50S",
+                "GFX_50S_II",
+                "X-A1",
+                "X-A10",
+                "X-A2",
+                "X-A20",
+                "X-A3",
+                "X-A5",
+                "X-A7",
+                "X-E1",
+                "X-E2",
+                "X-E2S",
+                "X-E3",
+                "X-E4",
+                "X-H1",
+                "X-H2",
+                "X-H2S",
+                "X-M1",
+                "X-PRO1",
+                "X-PRO2",
+                "X-PRO3",
+                "X-S10",
+                "X-S20",
+                "X-T1",
+                "X-T10",
+                "X-T100",
+                "X-T2",
+                "X-T20",
+                "X-T200",
+                "X-T3",
+                "X-T30",
+                "X-T30_II",
+                "X-T4",
+                "X-T5",
+                "X100",
+                "X100F",
+                "X100S",
+                "X100T",
+                "X100V",
+                "X10",
+                "X20",
+                "X30",
+                "X70"
+            ]
+        },
+        "whiteBalanceMode": {
+            "type": "string",
+            "default": "AUTO",
+            "enum": [
+                "AUTO",
+                "AUTO_WHITE_PRIORITY",
+                "AUTO_AMBIENCE_PRIORITY",
+                "DAYLIGHT",
+                "SHADE",
+                "UNDERWATER",
+                "FLUORESCENT1",
+                "FLUORESCENT2",
+                "FLUORESCENT3",
+                "INCANDESCENT",
+                "TEMPERATURE"
+            ]
+        },
+        "whiteBalanceShift": {
+            "type": "integer",
+            "default": 0,
+            "minimum": -9,
+            "maximum": 9
+        },
+        "whiteBalanceTemperature": {
+            "type": "integer",
+            "default": 6500,
+            "minimum": 2500,
+            "maximum": 10000,
+            "multipleOf": 100
+        },
+        "dynamicRange": {
+            "type": "string",
+            "default": "DR100",
+            "enum": [
+                "DR100",
+                "DR200",
+                "DR400",
+                "DR-AUTO",
+                "DR-P-AUTO",
+                "DR-P-WEAK",
+                "DR-P-STRONG"
+            ]
+        },
+        "onOff": {
+            "type": "string",
+            "default": "OFF",
+            "enum": [
+                "ON",
+                "OFF"
+            ]
+        },
+        "amount": {
+            "type": "string",
+            "default": "OFF",
+            "enum": [
+                "OFF",
+                "WEAK",
+                "STRONG"
+            ]
+        },
+        "size": {
+            "type": "string",
+            "default": "SMALL",
+            "enum": [
+                "SMALL",
+                "LARGE"
+            ]
+        },
+        "monochromaticColor": {
+            "type": "integer",
+            "default": 0,
+            "minimum": -18,
+            "maximum": 18
+        },
+        "toneCurve": {
+            "type": "number",
+            "default": 0,
+            "minimum": -2,
+            "maximum": 4,
+            "multipleOf": 0.5
+        },
+        "standardSettingsRange": {
+            "type": "integer",
+            "default": 0,
+            "minimum": -4,
+            "maximum": 4
+        },
+        "clarity": {
+            "type": "integer",
+            "default": 0,
+            "minimum": -5,
+            "maximum": 5
+        },
+        "linkWithType": {
+            "$ref": "#/$defs/urlAddress",
+            "type": "string",
+            "default": "",
+            "title": "URL address of the link",
+            "examples": [
+                "https://instagram.com/u/1223"
+            ]
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "$schema": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.1/schema.json",
+            "settings": {
+                "simulation": "CLASSIC_NEG",
+                "whiteBalance": {
+                    "mode": "TEMPERATURE",
+                    "shift": {
+                        "r": 3,
+                        "b": -2
+                    },
+                    "temperature": 6500
+                },
+                "dynamicRange": "DR400",
+                "toneCurve": {
+                    "highlights": 1.5,
+                    "shadows": -0.5
+                },
+                "color": 2,
+                "sharpness": -1,
+                "clarity": 0,
+                "noiseReduction": -2,
+                "effects": {
+                    "colorChrome": "STRONG",
+                    "colorChromeBlue": "STRONG",
+                    "grain": {
+                        "amount": "STRONG",
+                        "size": "LARGE"
+                    },
+                    "smoothSkin": "OFF"
+                }
+            },
+            "meta": {
+                "name": "My Classic Neg",
+                "author": {
+                    "name": "Miroslav Voda",
+                    "links": [
+                        "https://github.com/vodamiro"
+                    ]
+                },
+                "links": [
+                    "https://example.com/my_classig_neg_recipe/"
+                ],
+                "publishedDate": "2023-07-30T22:20:00Z",
+                "tags": [
+                    "fancy",
+                    "test"
+                ],
+                "camera": {
+                    "sensors": [
+                        "X_TRANS_IV",
+                        "X_TRANS_V_HR",
+                        "X_TRANS_V_HS"
+                    ],
+                    "models": [
+                        "X100V",
+                        "X-T5",
+                        "X-T4",
+                        "X-E4",
+                        "X-PRO3",
+                        "X-S10",
+                        "X-S20",
+                        "X-H2",
+                        "X-H2S"
+                    ]
+                }
+            }
+        }
+    ]
+}
