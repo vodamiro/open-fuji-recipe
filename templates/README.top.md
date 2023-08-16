@@ -8,7 +8,7 @@ The file extension is **OFR**.
 ## 🌳 File Structure (Schema)
 The file structure is defined by JSON schema. To support backward compatibility, the schema is versioned and the version will be increased in necessary cases.
 
-Complete documentation of the schema can be found here:
+Complete documentation of the schema can be found [HERE](https://vodamiro.github.io/open-fuji-recipe/).
 
 Latest version of the file schema: `{{SCHEMA_VERSION}}`
 URL of the schema: `{{SCHEMA_URL}}`
