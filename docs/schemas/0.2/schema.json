@@ -1,5 +1,5 @@
 {
-    "$id": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.1/schema.json",
+    "$id": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.2/schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "title": "Open Fuji Recipe File Schema",
@@ -9,9 +9,9 @@
             "type": "string",
             "title": "File Schema",
             "description": "The schema of the file format so that parsers can determine how to parse the file.",
-            "default": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.1/schema.json",
+            "default": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.2/schema.json",
             "enum": [
-                "https://vodamiro.github.io/open-fuji-recipe/schemas/0.1/schema.json"
+                "https://vodamiro.github.io/open-fuji-recipe/schemas/0.2/schema.json"
             ]
         },
         "settings": {
@@ -28,9 +28,6 @@
                     "type": "object",
                     "title": "White Balance",
                     "description": "The white balance settings",
-                    "default": {
-                        "mode": "AUTO"
-                    },
                     "properties": {
                         "mode": {
                             "$ref": "#/$defs/whiteBalanceMode",
@@ -41,10 +38,6 @@
                             "type": "object",
                             "title": "White Balance Color Shift",
                             "description": "The white balance color shift.",
-                            "default": {
-                                "r": 0,
-                                "b": 0
-                            },
                             "properties": {
                                 "r": {
                                     "$ref": "#/$defs/whiteBalanceShift",
@@ -61,6 +54,7 @@
                                 "r",
                                 "b"
                             ],
+                            "additionalProperties": false,
                             "examples": [
                                 {
                                     "r": 5,
@@ -112,10 +106,6 @@
                     "type": "object",
                     "title": "Tone Curve",
                     "description": "The tone curve settings.",
-                    "default": {
-                        "highlights": 0,
-                        "shadows": 0
-                    },
                     "properties": {
                         "highlights": {
                             "$ref": "#/$defs/toneCurve",
@@ -151,10 +141,6 @@
                     "type": "object",
                     "title": "Monochromatic color",
                     "description": "The monochromatic color settings (applicable only for monochrome simulations).",
-                    "default": {
-                        "wc": 0,
-                        "mg": 0
-                    },
                     "properties": {
                         "wc": {
                             "$ref": "#/$defs/monochromaticColor",
@@ -211,10 +197,6 @@
                             "type": "object",
                             "title": "Grain Effect",
                             "description": "The grain effect settings. For older sensors, grain size is not available.",
-                            "default": {
-                                "amount": "OFF",
-                                "size": "SMALL"
-                            },
                             "properties": {
                                 "amount": {
                                     "$ref": "#/$defs/amount",
@@ -245,6 +227,10 @@
                             "description": "The smooth skin effect settings."
                         }
                     },
+                    "required": [
+                        "colorChrome",
+                        "grain"
+                    ],
                     "additionalProperties": false,
                     "examples": [
                         {
@@ -262,8 +248,37 @@
                     "$ref": "#/$defs/onOff",
                     "title": "Lens Modulation Optimizer",
                     "description": "The lens modulation optimizer settings."
+                },
+                "exposureCompensation": {
+                    "type": "array",
+                    "title": "Exposure Compensation Range",
+                    "items": {
+                        "$ref": "#/$defs/exposureCompensation"
+                    },
+                    "description": "The exposure compensation settings - either a single value or 2 values as a range.",
+                    "minItems": 1,
+                    "maxItems": 2,
+                    "uniqueItems": true,
+                    "examples": [
+                        [
+                            "+1 1/3"
+                        ],
+                        [
+                            "+1/3",
+                            "+1 2/3"
+                        ]
+                    ]
                 }
             },
+            "required": [
+                "simulation",
+                "whiteBalance",
+                "dynamicRange",
+                "toneCurve",
+                "sharpness",
+                "noiseReduction",
+                "effects"
+            ],
             "additionalProperties": false
         },
         "meta": {
@@ -286,8 +301,9 @@
                     "title": "Links with information about recipe",
                     "description": "The links with information about the recipe.",
                     "items": {
-                        "$ref": "#/$defs/linkWithType"
-                    }
+                        "$ref": "#/$defs/urlAddress"
+                    },
+                    "uniqueItems": true
                 },
                 "author": {
                     "type": "object",
@@ -306,8 +322,9 @@
                             "type": "array",
                             "title": "Links with information about author",
                             "items": {
-                                "$ref": "#/$defs/linkWithType"
-                            }
+                                "$ref": "#/$defs/urlAddress"
+                            },
+                            "uniqueItems": true
                         },
                         "email": {
                             "type": "string",
@@ -321,7 +338,6 @@
                     "required": [
                         "name"
                     ],
-                    "additionalProperties": false,
                     "examples": [
                         {
                             "name": "John Doe",
@@ -354,7 +370,6 @@
                         ],
                         "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
                     },
-                    "minItems": 1,
                     "uniqueItems": true,
                     "examples": [
                         [
@@ -374,20 +389,22 @@
                     "properties": {
                         "sensors": {
                             "type": "array",
+                            "title": "Supported sensors",
                             "items": {
                                 "$ref": "#/$defs/sensor",
-                                "title": "Sensor"
+                                "title": "Supported Sensor"
                             },
-                            "title": "Supported sensors",
+                            "uniqueItems": true,
                             "description": "The list of supported sensors."
                         },
                         "models": {
                             "type": "array",
+                            "title": "Supported Camera Models",
                             "items": {
                                 "$ref": "#/$defs/cameraModel",
                                 "title": "Supported Camera Model"
                             },
-                            "title": "Supported Camera Models",
+                            "uniqueItems": true,
                             "description": "The list of supported camera models."
                         }
                     },
@@ -398,15 +415,14 @@
                                 "X_TRANS_IV"
                             ],
                             "models": [
-                                "X-T4",
-                                "X-100V"
+                                "X_T4",
+                                "X_100V"
                             ]
                         }
                     ]
                 },
                 "images": {
                     "type": "array",
-                    "default": [],
                     "title": "Previews of Recipe Outputs",
                     "description": "The previews of recipe outputs. Useful for presenting the recipe in the gallery.",
                     "items": {
@@ -415,8 +431,6 @@
                         "properties": {
                             "thumbnail": {
                                 "$ref": "#/$defs/urlAddress",
-                                "type": "string",
-                                "default": "",
                                 "title": "Image thumbnail",
                                 "examples": [
                                     "https://example.com/"
@@ -424,8 +438,6 @@
                             },
                             "full": {
                                 "$ref": "#/$defs/urlAddress",
-                                "type": "string",
-                                "default": "",
                                 "title": "Full image",
                                 "examples": [
                                     "https://example.com/"
@@ -443,6 +455,7 @@
                             }
                         ]
                     },
+                    "uniqueItems": true,
                     "examples": [
                         [
                             {
@@ -455,17 +468,19 @@
             },
             "required": [
                 "name",
-                "author"
-            ],
-            "additionalProperties": false
+                "author",
+                "camera"
+            ]
         }
     },
     "required": [
         "$schema",
-        "settings"
+        "settings",
+        "meta"
     ],
     "$defs": {
         "urlAddress": {
+            "type": "string",
             "format": "uri",
             "pattern": "^https?://"
         },
@@ -496,7 +511,6 @@
         },
         "sensor": {
             "type": "string",
-            "default": "",
             "enum": [
                 "BAYER",
                 "X_TRANS_I",
@@ -505,50 +519,51 @@
                 "X_TRANS_IV",
                 "X_TRANS_V_HR",
                 "X_TRANS_V_HS",
+                "EXR_CMOS",
                 "GFX"
             ]
         },
         "cameraModel": {
             "type": "string",
-            "default": "",
             "enum": [
                 "GFX_100",
                 "GFX_100S",
                 "GFX_50R",
                 "GFX_50S",
                 "GFX_50S_II",
-                "X-A1",
-                "X-A10",
-                "X-A2",
-                "X-A20",
-                "X-A3",
-                "X-A5",
-                "X-A7",
-                "X-E1",
-                "X-E2",
-                "X-E2S",
-                "X-E3",
-                "X-E4",
-                "X-H1",
-                "X-H2",
-                "X-H2S",
-                "X-M1",
-                "X-PRO1",
-                "X-PRO2",
-                "X-PRO3",
-                "X-S10",
-                "X-S20",
-                "X-T1",
-                "X-T10",
-                "X-T100",
-                "X-T2",
-                "X-T20",
-                "X-T200",
-                "X-T3",
-                "X-T30",
-                "X-T30_II",
-                "X-T4",
-                "X-T5",
+                "X_A1",
+                "X_A10",
+                "X_A2",
+                "X_A20",
+                "X_A3",
+                "X_A5",
+                "X_A7",
+                "X_E1",
+                "X_E2",
+                "X_E2S",
+                "X_E3",
+                "X_E4",
+                "X_H1",
+                "X_H2",
+                "X_H2S",
+                "X_M1",
+                "X_PRO1",
+                "X_PRO2",
+                "X_PRO3",
+                "X_S1",
+                "X_S10",
+                "X_S20",
+                "X_T1",
+                "X_T10",
+                "X_T100",
+                "X_T2",
+                "X_T20",
+                "X_T200",
+                "X_T3",
+                "X_T30",
+                "X_T30_II",
+                "X_T4",
+                "X_T5",
                 "X100",
                 "X100F",
                 "X100S",
@@ -557,7 +572,11 @@
                 "X10",
                 "X20",
                 "X30",
-                "X70"
+                "X70",
+                "XF1",
+                "XF10",
+                "XQ1",
+                "XQ2"
             ]
         },
         "whiteBalanceMode": {
@@ -585,10 +604,9 @@
         },
         "whiteBalanceTemperature": {
             "type": "integer",
-            "default": 6500,
             "minimum": 2500,
             "maximum": 10000,
-            "multipleOf": 100
+            "multipleOf": 10
         },
         "dynamicRange": {
             "type": "string",
@@ -597,10 +615,10 @@
                 "DR100",
                 "DR200",
                 "DR400",
-                "DR-AUTO",
-                "DR-P-AUTO",
-                "DR-P-WEAK",
-                "DR-P-STRONG"
+                "DR_AUTO",
+                "DR_P_AUTO",
+                "DR_P_WEAK",
+                "DR_P_STRONG"
             ]
         },
         "onOff": {
@@ -613,6 +631,7 @@
         },
         "amount": {
             "type": "string",
+            "title": "Amount",
             "default": "OFF",
             "enum": [
                 "OFF",
@@ -622,7 +641,6 @@
         },
         "size": {
             "type": "string",
-            "default": "SMALL",
             "enum": [
                 "SMALL",
                 "LARGE"
@@ -653,20 +671,23 @@
             "minimum": -5,
             "maximum": 5
         },
-        "linkWithType": {
-            "$ref": "#/$defs/urlAddress",
+        "exposureCompensation": {
             "type": "string",
-            "default": "",
-            "title": "URL address of the link",
+            "default": "0",
+            "pattern": "^([+-]?)([012345]|[1234] [12]/3|[12]/3)$",
             "examples": [
-                "https://instagram.com/u/1223"
+                "0",
+                "-1/3",
+                "+1",
+                "+2 2/3",
+                "-3"
             ]
         }
     },
     "additionalProperties": false,
     "examples": [
         {
-            "$schema": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.1/schema.json",
+            "$schema": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.2/schema.json",
             "settings": {
                 "simulation": "CLASSIC_NEG",
                 "whiteBalance": {
@@ -694,7 +715,11 @@
                         "size": "LARGE"
                     },
                     "smoothSkin": "OFF"
-                }
+                },
+                "lensModulationOptimizer": "OFF",
+                "exposureCompensation": [
+                    "+1 1/3"
+                ]
             },
             "meta": {
                 "name": "My Classic Neg",
@@ -720,14 +745,14 @@
                     ],
                     "models": [
                         "X100V",
-                        "X-T5",
-                        "X-T4",
-                        "X-E4",
-                        "X-PRO3",
-                        "X-S10",
-                        "X-S20",
-                        "X-H2",
-                        "X-H2S"
+                        "X_T5",
+                        "X_T4",
+                        "X_E4",
+                        "X_PRO3",
+                        "X_S10",
+                        "X_S20",
+                        "X_H2",
+                        "X_H2S"
                     ]
                 }
             }

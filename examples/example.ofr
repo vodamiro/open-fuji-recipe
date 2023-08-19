@@ -1,5 +1,5 @@
 {
-  "$schema": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.1/schema.json",
+  "$schema": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.2/schema.json",
   "settings": {
     "simulation": "CLASSIC_NEG",
     "whiteBalance": {
@@ -27,7 +27,11 @@
         "size": "LARGE"
       },
       "smoothSkin": "OFF"
-    }
+    },
+    "lensModulationOptimizer": "OFF",
+    "exposureCompensation": [
+      "+1 1/3"
+    ]
   },
   "meta": {
     "name": "My Classic Neg",
@@ -53,14 +57,14 @@
       ],
       "models": [
         "X100V",
-        "X-T5",
-        "X-T4",
-        "X-E4",
-        "X-PRO3",
-        "X-S10",
-        "X-S20",
-        "X-H2",
-        "X-H2S"
+        "X_T5",
+        "X_T4",
+        "X_E4",
+        "X_PRO3",
+        "X_S10",
+        "X_S20",
+        "X_H2",
+        "X_H2S"
       ]
     }
   }
