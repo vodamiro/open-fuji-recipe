@@ -1,5 +1,5 @@
 {
-  "$schema": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.2/schema.json",
+  "$schema": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.3/schema.json",
   "settings": {
     "simulation": "CLASSIC_NEG",
     "whiteBalance": {
