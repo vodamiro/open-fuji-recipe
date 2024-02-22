@@ -10,9 +10,9 @@ The file structure is defined by JSON schema. To support backward compatibility,
 
 Complete documentation of the schema can be found [HERE](https://vodamiro.github.io/open-fuji-recipe/).
 
-Latest version of the file schema: `0.3`
-URL of the schema: `https://vodamiro.github.io/open-fuji-recipe/schemas/0.3/schema.json`
-Currently supported camera models: GFX_100, GFX_100_II, GFX_100S, GFX_50R, GFX_50S, GFX_50S_II, X_A1, X_A10, X_A2, X_A20, X_A3, X_A5, X_A7, X_E1, X_E2, X_E2S, X_E3, X_E4, X_H1, X_H2, X_H2S, X_M1, X_PRO1, X_PRO2, X_PRO3, X_S1, X_S10, X_S20, X_T1, X_T10, X_T100, X_T2, X_T20, X_T200, X_T3, X_T30, X_T30_II, X_T4, X_T5, X100, X100F, X100S, X100T, X100V, X10, X20, X30, X70, XF1, XF10, XQ1, XQ2
+Latest version of the file schema: `0.3.1`
+URL of the schema: `https://vodamiro.github.io/open-fuji-recipe/schemas/0.3.1/schema.json`
+Currently supported camera models: GFX_100, GFX_100_II, GFX_100S, GFX_50R, GFX_50S, GFX_50S_II, X_A1, X_A10, X_A2, X_A20, X_A3, X_A5, X_A7, X_E1, X_E2, X_E2S, X_E3, X_E4, X_H1, X_H2, X_H2S, X_M1, X_PRO1, X_PRO2, X_PRO3, X_S1, X_S10, X_S20, X_T1, X_T10, X_T100, X_T2, X_T20, X_T200, X_T3, X_T30, X_T30_II, X_T4, X_T5, X100, X100F, X100S, X100T, X100V, X100VI, X10, X20, X30, X70, XF1, XF10, XQ1, XQ2
 
 ### ☝️ Recommendations
 
@@ -25,7 +25,7 @@ Currently supported camera models: GFX_100, GFX_100_II, GFX_100S, GFX_50R, GFX_5
 `My First Recipe.ofr`
 ```json
 {
-  "$schema": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.3/schema.json",
+  "$schema": "https://vodamiro.github.io/open-fuji-recipe/schemas/0.3.1/schema.json",
   "settings": {
     "simulation": "CLASSIC_NEG",
     "whiteBalance": {
